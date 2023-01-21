@@ -4,67 +4,115 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registeration form</title>
+    <title>Guess karo prize jeeto</title>
     <style>
-      fieldset {
-        width: 30vw;
-        background-color: rgb(189, 223, 223);
-      }
-      label {
-        display: flex;
-        justify-content: space-between;
-      }
-      form,
       body {
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: azure;
+        background-color: antiquewhite;
       }
-      input {
-        border-radius: 10px;
-        padding: 4px 8px;
-      }
-      #submit {
-        padding: 8px 16px;
-        font-weight: 600;
-        background-color: rgb(189, 223, 223);
+      .main {
+        width: 35vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(248, 225, 190);
+        border-radius: 20px;
+        margin-top: 30px;
+        border: 3px dashed black;
       }
       h1 {
         text-decoration: underline;
       }
+      h2 {
+        border-radius: 10px;
+        padding: 8px 16px;
+        background-color: red;
+        border: none;
+      }
+      button {
+        padding: 4px 8px;
+        border-radius: 8px;
+        font-weight: 600;
+        background-color: aliceblue;
+      }
+      input {
+        border-radius: 16px;
+        padding: 8px 16px;
+      }
     </style>
   </head>
   <body>
-    <h1>Registeration Form</h1>
-    <p>Please fill out the form with the details required.</p>
-    <form>
-      <fieldset>
-        <br /><br />
-        <label for="first-name">
-          Enter your First Name:
-          <input type="text" id="first-name" name="fname" /> </label
-        ><br /><br />
-        <label for="last-name">
-          Enter your Last Name:
-          <input type="text" id="last-name" name="lname" /> </label
-        ><br /><br />
-        <label for="email">
-          Enter your Email:
-          <input type="email" id="email" name="email" /> </label
-        ><br /><br />
-        <label for="new-password">
-          Enter new Password:
-          <input
-            type="password"
-            id="new-password"
-            name="password"
-            required
-          /> </label
-        ><br /><br />
-      </fieldset>
+    <div class="main">
+      <h1>Guess kar Prize Jeeto</h1>
+      <h2 id="chances">Chances left:</h2>
+      <label for="num">
+        <h3>Enter the number:</h3>
+        <input id="num2" type="text" />
+      </label>
+      <br /><br />
+      <button onclick="checkNum()">Submit</button><br />
+      <p>
+        hint: You can see the correct answer in console after guessing wrong
+      </p>
       <br />
-      <input type="submit" name="submit" id="submit" />
-    </form>
+      <button onclick="newGame()">Restart</button>
+      <p id="message"></p>
+      <h3>History</h3>
+      <ol id="history"></ol>
+    </div>
+    <script>
+      const chancesEl = document.getElementById("chances");
+      const messageEl = document.getElementById("message");
+      const historyEl = document.getElementById("history");
+      const num2El = document.getElementById("num2");
+      let chances = 10;
+      chancesEl.innerHTML = "Chances left: " + chances;
+
+      let num = Math.floor(Math.random() * 100 + 1);
+
+      function checkNum() {
+        let num2 = Number(num2El.value);
+        if (chances > 0) {
+          if (num2 === num) {
+            messageEl.innerHTML = "You guessed the correct number!!!";
+            chances -= 1;
+            let his = document.createElement("li");
+            his.innerText = `${num2} is correct answer`;
+            historyEl.appendChild(his);
+            chancesEl.innerHTML = "Chances left: " + chances;
+            alert("congratulations you won!!!");
+          } else if (num2 > num) {
+            messageEl.innerHTML = "Your guess is too high";
+            chances -= 1;
+            let his = document.createElement("li");
+            his.innerText = `${num2} is too high`;
+            historyEl.appendChild(his);
+            chancesEl.innerHTML = "Chances left: " + chances;
+            console.log(num);
+          } else {
+            messageEl.innerHTML = "your guess is too low";
+            chances -= 1;
+            let his = document.createElement("li");
+            his.innerText = `${num2} is too low`;
+            historyEl.appendChild(his);
+            chancesEl.innerHTML = "Chances left: " + chances;
+            console.log(num);
+          }
+        } else {
+          alert("all your chances are finished!!! new game will be started.");
+          newGame();
+        }
+      }
+      function newGame() {
+        num = Math.floor(Math.random() * 100 + 1);
+        chances = 10;
+        historyEl.innerHTML = "";
+        messageEl.innerHTML = "";
+        chancesEl.innerHTML = "Chances left: " + chances;
+      }
+    </script>
   </body>
 </html>
+
